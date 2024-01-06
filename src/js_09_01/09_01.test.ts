@@ -12,6 +12,50 @@ export type UserType = {
     }
 }
 
+test("reference type array test", () => {
+    const address = {
+        title: 'Saint-Petersburg'
+    }
+
+    let user: UserType = {
+        name: 'Elena',
+        age: 33,
+        address: address
+    };
+
+    let user2: UserType ={
+        name: 'Xenia',
+        age: 34,
+        address: address
+    }
+
+    const users = [ user, user2, {name: 'Emmy', age: 3, address: address}]
+
+    const admins = [user, user2]
+
+    admins[0].name = 'Helen'
+
+    expect(users[0].name).toBe('Helen')
+    expect(user.name).toBe('Helen')
+
+})
+
+test("sort array test", () => {
+
+    const letters = ['c', 'd', 'a', 'z', 'e']
+
+    pasportist(letters)
+
+    expect(letters).toEqual(['c', 'd', 'a', 'z', 'e'])
+    })
+
+function pasportist (letters:any) {
+    const copy = [...letters].sort();
+    console.log(copy);
+}
+
+
+
 test("reference type test", () => {
     const address = {
         title: 'Saint-Petersburg'
