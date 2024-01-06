@@ -6,15 +6,43 @@ function icreaseAge(u: UserType) {
 
 export type UserType = {
     name: string
-    age: number
+    age: number,
+    address: {
+        title: string
+    }
 }
+
+test("reference type test", () => {
+    const address = {
+        title: 'Saint-Petersburg'
+    }
+
+    let user: UserType = {
+        name: 'Elena',
+        age: 33,
+        address: address
+    };
+
+    let user2: UserType ={
+        name: 'Xenia',
+        age: 34,
+        address: address
+    }
+
+    address.title = 'Saint-Petersburg City';
+
+    expect(user.address).toBe(user2.address)
+    expect(user.address.title).toBe('Saint-Petersburg City')
+
+})
+
 
 test("array reference test", () => {
 
     let users = [
         {
             name: 'Elena',
-            age: 33
+            age: 33,
         },
         {
             name: 'Elena',
@@ -39,7 +67,7 @@ test("array reference test", () => {
 })
 
 
-test('value type test', ()=> {
+test('value type test', () => {
     let userCount = 100;
 
     let adminCount = userCount
@@ -50,13 +78,6 @@ test('value type test', ()=> {
     expect(adminCount).toEqual(adminCount)
 
 })
-
-
-
-
-
-
-
 
 
 //---------------------------------------------------------------------------------------------
@@ -88,8 +109,6 @@ test('value type test', ()=> {
     expect(users[1].age).toBe(33)
 
 })*/
-
-
 
 
 //-----------------------------------------------------------------------------------------------
