@@ -45,3 +45,12 @@ export  function moveUser (u: UserWithLaptopType, city: string) {
             city: city}
     }
 }
+
+export function upgradeUserLaptop (u:UserWithLaptopType, title: string) {
+    return {
+        ...u,
+        laptop: {
+            ...u.laptop, title
+        }
+    }
+}
