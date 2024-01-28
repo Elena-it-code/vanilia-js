@@ -38,6 +38,13 @@ export  function moveUserToOtherHouse (u: UserWithLaptopType & UserWithBooksType
     }
 }
 
+export  function addNewBooksToUser (u: UserWithLaptopType & UserWithBooksType, newBook: string) {
+    return {
+        ...u,
+        books: [...u.books, newBook]
+    }
+}
+
 export  function moveUser (u: UserWithLaptopType, city: string) {
     // 1 из вариантов записи
     /*const copy = {
