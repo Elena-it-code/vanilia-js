@@ -1,12 +1,12 @@
 import {
-    addNewBooksToUser,
+    addNewBooksToUser, addNewCompany,
     makeHairstyle,
     moveUser,
     moveUserToOtherHouse, removeBook, updateBook,
     upgradeUserLaptop,
     UserType,
     UserWithBooksType,
-    UserWithLaptopType
+    UserWithLaptopType, WithCompaniesType
 } from "./Js_10_01";
 
 test("Test for surface copying of an object. Without deep nesting", () => {
@@ -169,5 +169,31 @@ test("remove js book", () => {
     expect(userCopy.books[2]).toBe('react')
     expect(userCopy.books.length).toBe(3)
 
+})
+
+test("add new company Google", () => {
+    let user: UserWithLaptopType & WithCompaniesType = {
+        name: 'Elena',
+        hair: 32,
+        address: {
+            city: 'Saint-Petersburg',
+            house: 12
+        },
+        laptop: {
+            title: 'ZenBook'
+        },
+        companies: [
+            {id:1, title:'Epam'},
+            {id:2, title: 'IT-INCUBATOR'}
+        ]
+    };
+
+    const userCopy = addNewCompany(user, 3, 'Google')
+
+    expect(user).not.toBe(userCopy)
+    expect(user.laptop).toBe(userCopy.laptop)
+    expect(user.address).toBe(userCopy.address)
+    expect(user.companies).not.toBe(userCopy.companies)
+    expect(userCopy.companies.length).toBe(3)
 })
 
