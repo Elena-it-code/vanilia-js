@@ -50,6 +50,11 @@ export  function updateBook (u: UserWithLaptopType & UserWithBooksType, oldBook:
     return {...u, books: u.books.map(b=> b === oldBook ? newBook : b)}
 }
 
+export  function removeBook (u: UserWithLaptopType & UserWithBooksType, bookForDelete: string) {
+
+    return {...u, books: u.books.filter(b=> b !== bookForDelete)}
+}
+
 export  function moveUser (u: UserWithLaptopType, city: string) {
     // 1 из вариантов записи
     /*const copy = {
