@@ -66,6 +66,24 @@ export  function addNewCompany (u: UserWithLaptopType & WithCompaniesType, id: n
     }
 }
 
+export  function updateCompanyTitle (u: UserWithLaptopType & WithCompaniesType, companyId: number, newTitle: string) {
+
+    return {
+        ...u,
+          companies: u.companies.map(el=> el.id === companyId ? {...el, title: newTitle} : el)
+    }
+    //один из простых вариантов этой же записи, самый обычный способ полный через if и else
+    /*const copy: WithCompaniesType = {
+        ...u,
+        companies: u.companies.map(=>{
+            if (c.id === companyId) {
+                return {...c, title: newTitle}
+            } else return c
+        })
+    }
+    return copy*/
+}
+
 export  function moveUser (u: UserWithLaptopType, city: string) {
     // 1 из вариантов записи
     /*const copy = {
@@ -94,3 +112,5 @@ export function upgradeUserLaptop (u:UserWithLaptopType, title: string) {
         }
     }
 }
+
+
