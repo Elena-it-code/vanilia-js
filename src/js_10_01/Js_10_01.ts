@@ -45,6 +45,11 @@ export  function addNewBooksToUser (u: UserWithLaptopType & UserWithBooksType, n
     }
 }
 
+export  function updateBook (u: UserWithLaptopType & UserWithBooksType, oldBook: string, newBook: string) {
+
+    return {...u, books: u.books.map(b=> b === oldBook ? newBook : b)}
+}
+
 export  function moveUser (u: UserWithLaptopType, city: string) {
     // 1 из вариантов записи
     /*const copy = {
