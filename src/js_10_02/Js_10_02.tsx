@@ -33,3 +33,12 @@ b.students = [...a.students]; // только сейчас создали КОП
 b.classroom = {...a.classroom}; // только сейчас создали КОПИЮ ОБЪЕКТА classroom. Теперь это копия объекта, а не ссылка (можем вносить изменения, т.к. это копия)
 //делаем глубокую копию объекта teatcher
 b.classroom.teatcher = {...a.classroom.teatcher} // только сейчас создали КОПИЮ ОБЪЕКТА teatcher. Теперь это копия объекта, а не ссылка (можем вносить изменения, т.к. это копия)
+
+//Полная запись глубокой копии объекта a:
+let copyA = {
+    ...a,
+    students:[...a.students],
+    classroom: {...a.classroom},
+    teatcher: {...a.classroom.teatcher}
+}
+
