@@ -239,3 +239,44 @@ fetchData()
         console.log("Finally 3: Final cleanup");
     });
 
+/*Описание задачи:
+fetchData:
+
+Функция возвращает промис, который через 1 секунду резолвится строкой "Fetched Data".
+Если раскомментировать строку с reject, промис завершится с ошибкой "Failed to fetch data".
+Step 1:
+
+Выводит "Step 1: Fetched Data".
+Возвращает строку "Fetched Data -> Processed by Step 1".
+Step 2:
+
+Выводит "Step 2: Fetched Data -> Processed by Step 1".
+Если строка содержит слово "Processed", генерируется ошибка "Error at Step 2".
+Catch:
+
+Перехватывает ошибку и выводит её сообщение, возвращает "Recovered from Step 2 Error".
+Finally 1:
+
+Выполняется после Step 2 и вывода ошибки (если она произошла), выводит "Finally 1: Cleanup after Step 2".
+Step 3:
+
+Выводит "Step 3: Recovered from Step 2 Error".
+Возвращает новый промис, который через 500 мс резолвится строкой "Recovered from Step 2 Error -> Step 3 Complete".
+Finally 2:
+
+Выполняется после Step 3, выводит "Finally 2: Cleanup after Step 3".
+Step 4:
+
+Выводит "Step 4: Recovered from Step 2 Error -> Step 3 Complete".
+Если раскомментировать строку с ошибкой, она будет перехвачена в следующем catch.
+Final Catch:
+
+Перехватывает ошибку из Step 4 (если есть), выводит её сообщение.
+Finally 3:
+
+Выполняется в любом случае после Step 4, выводит "Finally 3: Final cleanup".
+Задание:
+Поймите последовательность выполнения then, catch, и finally блоков.
+Попробуйте раскомментировать строки, которые вызывают ошибки, и проследите, как это влияет на цепочку промисов.
+Попробуйте изменить время задержки в fetchData и Step 3, чтобы увидеть, как это изменит время выполнения промисов.*/
+
