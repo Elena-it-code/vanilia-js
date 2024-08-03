@@ -178,10 +178,64 @@
 //   console.log("Hello");
 // });
 
-const delay = (ms) => {
-    return new Promise((res, rej) => {
-        setTimeout(res, ms);
+// const delay = (ms) => {
+//     return new Promise((res, rej) => {
+//         setTimeout(res, ms);
+//     });
+// };
+//
+// delay(1000).then(() => console.log("Hello!"));
+
+
+
+// задача для закрепления знаний
+const fetchData = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Fetched Data");
+            // reject(new Error("Failed to fetch data"));
+        }, 1000);
     });
 };
 
-delay(1000).then(() => console.log("Hello!"));
+fetchData()
+    .then((data) => {
+        console.log("Step 1:", data);
+        return data + " -> Processed by Step 1";
+    })
+    .then((data) => {
+        console.log("Step 2:", data);
+        if (data.includes("Processed")) {
+            throw new Error("Error at Step 2");
+        }
+        return data + " -> Further Processed by Step 2";
+    })
+    .catch((err) => {
+        console.log("Error caught:", err.message);
+        return "Recovered from Step 2 Error";
+    })
+    .finally(() => {
+        console.log("Finally 1: Cleanup after Step 2");
+    })
+    .then((data) => {
+        console.log("Step 3:", data);
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(data + " -> Step 3 Complete"), 500);
+        });
+    })
+    .finally(() => {
+        console.log("Finally 2: Cleanup after Step 3");
+    })
+    .then((data) => {
+        console.log("Step 4:", data);
+        // Uncomment the next line to introduce an error
+        // throw new Error("Unexpected error at Step 4");
+        return "All steps completed successfully!";
+    })
+    .catch((err) => {
+        console.log("Final Catch:", err.message);
+    })
+    .finally(() => {
+        console.log("Finally 3: Final cleanup");
+    });
+
