@@ -146,6 +146,38 @@ setTimeout(()=>{
 
 
 
+// *** -------    asyng/await try/catch и  finally    --------- ***
+// Если нужно отловить ошибку, то используем внутри asyng/await  -  try /catch, чтобы ее отловить.
+// try/catch - это блоки, которые используются для обработки исключений в JavaScript.
+// Они позволяют нам выполнить код, который может потенциально вызвать ошибку (try), и если такая
+// ошибка возникает, поймать и обработать ее (catch).
+// try: Блок кода, который может потенциально вызвать ошибку.
+// catch: Блок кода, который обрабатывает ошибку. Он получает объект ошибки как аргумент.
+// finally - это необязательный блок, который может быть добавлен после try/catch. Он выполняется всегда, независимо от
+// того, была ли ошибка или нет.
+const foo1 = async () => {
+    try {
+        const dataFromBing = await fetch('https://bing.com/query=js')
+        console.log(dataFromBing.url)
+        const dataFromYahoo = await fetch('https://yahoo65895.com/query=js')
+        console.log(dataFromYahoo.url)
+        const dataFromGoogle = await fetch('https://google.com/query=js')
+        console.log(dataFromGoogle.url)
+    } catch (error) {   // отработает в случае ошибки
+        console.log(error) // Обработка ошибки
+    } finally {    // отработает в любом случае
+        console.log("finally") // Код, который выполняется всегда
+    }
+}
+
+foo1()
+// *** ------- ***
+
+
+
+
+
+
 
 // *** ------- ***
 // Writing with function declaration:
