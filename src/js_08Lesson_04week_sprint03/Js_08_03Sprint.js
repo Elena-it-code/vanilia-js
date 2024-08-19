@@ -372,3 +372,76 @@ Promise.allSettled([
 // В целом, `Promise.resolve()` является удобным инструментом для работы с промисами и может использоваться в различных
 // контекстах для упрощения и улучшения управляемости асинхронного кода.
 // *** ------- ***
+
+
+
+
+
+
+
+// *** ------- ***
+// *** ----   static methods of Promise     .reject()  ----- ***
+// Статический метод `Promise.reject()` в JavaScript используется для создания уже отклоненного (rejected) промиса
+// с заданной причиной ошибки. Этот метод также может быть полезен в различных сценариях,
+// особенно при тестировании и разработке. Вот несколько примеров использования:
+
+//     1. **Тестирование обработки ошибок**:
+// - При написании тестов для асинхронного кода, вы можете использовать `Promise.reject()` для создания условий,
+// когда асинхронная операция завершается с ошибкой. Это позволяет вам проверять,
+// как ваш код обрабатывает исключительные ситуации.
+// - Например:
+     test('should handle failed async operation', async () => {
+       try {
+         await someAsyncFunction();
+       } catch (error) {
+         expect(error).toEqual(new Error('Something went wrong'));
+       }
+     });
+
+     function someAsyncFunction() {
+       return Promise.reject(new Error('Something went wrong'));
+     }
+
+// 2. **Заглушки (stubs) для разработки и тестирования**:
+// - Аналогично `Promise.resolve()`, `Promise.reject()` может использоваться для создания заглушек,
+// когда асинхронный код еще не готов или когда вы хотите симулировать ошибку.
+// - Например:
+     function fetchDataFromServer() {
+       // Пока запрос на сервер не готов, используем заглушку для симуляции ошибки
+       return Promise.reject(new Error('Server is down'));
+     }
+
+
+// 3. **Упрощение кода**:
+// - Иногда `Promise.reject()` может использоваться для упрощения кода, особенно когда вы хотите гарантировать,
+// что какая-то часть кода всегда возвращает отклоненный промис в определенных условиях.
+// - Например:
+     function getUserData(userId) {
+       if (!userId) {
+         return Promise.reject(new Error('User ID is required')); // Возвращаем отклоненный промис с ошибкой
+       }
+       return fetch(`/api/user/${userId}`)
+         .then(response => response.json());
+     }
+
+
+// 4. **Создание централизованного обработчика ошибок**:
+// - Вы можете использовать `Promise.reject()` для создания централизованного места, где обрабатываются и преобразуются
+// ошибки перед тем, как они будут переданы дальше по цепочке промисов.
+// - Например:
+     function handleError(error) {
+       const customError = new Error('Custom error message');
+       customError.originalError = error;
+       return Promise.reject(customError);
+     }
+
+     fetchDataFromServer()
+       .catch(handleError)
+       .catch(error => {
+         console.error('Final error handler:', error.message);
+       });
+
+
+// В целом, `Promise.reject()` является важным инструментом для работы с промисами, особенно когда речь идет
+// об обработке исключительных ситуаций и тестировании асинхронного кода.
+// *** ------- ***
