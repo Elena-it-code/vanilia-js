@@ -1,0 +1,92 @@
+<script>
+    // *** ------- ***
+    // создание своего Promise(a)
+    function getNumber() {
+        //return Promise.resolve(Math.random())
+        const promise = new Promise((resolve, reject) => {
+            // reject('Some Error')
+            setTimeout(()=>{
+                resolve(Math.random())
+            }, 2000);
+        })
+        return promise
+    }
+
+    getNumber().then((n)=>{console.log(n)})
+    // getNumber().then((n)=> console.log(n))
+
+
+
+
+    const repo = {
+        save(data) {
+            try {
+                localStorage.setItem('some-key',  JSON.stringify(data))
+            } catch (error) {
+                return false
+            }
+            return true
+        },
+        saveAsync(data) {
+        const promise = new Promise((resolve, reject) => {
+            try {
+                localStorage.setItem('some-key',  JSON.stringify(data))
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+            return promise
+        },
+        read() {
+
+                const data = localStorage.getItem('some-key')
+                if(!data) {
+                    return null
+                } else {
+                    return JSON.parse(data)
+                }
+            },
+        readAsync() {
+            return new Promise((resolve, reject)=>{
+                const data = localStorage.getItem('some-key')
+                if(!data) {
+                    resolve(null)
+                } else {
+                    resolve(JSON.parse(data))
+                }
+            })
+        }
+    }
+
+    // Cинхронная версия Promise
+    const result = repo.save({name: 'IT-Incubator'})
+    if (result) {
+        console.log('SAVED')
+    } else {
+        console.warn('NOT SAVED')
+    }
+
+    // // Асинхронная версия Promise
+    // repo.saveAsync({name: 'IT-Incubator'})
+    //     .then(()=> console.log('SAVED'))
+    //     .catch((error)=> console.warn('NOT SAVED: ' + error))
+
+    const run = async () => {
+        await repo.saveAsync({name: 'IT-Incubator'})
+            console.log('SAVED')
+
+        const data = await repo.readAsync()
+        console.log(data)
+    }
+
+    run()
+
+
+
+
+
+
+    // *** ------- ***
+</script>

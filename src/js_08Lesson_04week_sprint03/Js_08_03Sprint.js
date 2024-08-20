@@ -445,3 +445,26 @@ Promise.allSettled([
 // В целом, `Promise.reject()` является важным инструментом для работы с промисами, особенно когда речь идет
 // об обработке исключительных ситуаций и тестировании асинхронного кода.
 // *** ------- ***
+
+
+
+
+
+
+
+// *** ------- ***
+// создание своего Promise(a)
+function getNumber() {
+    //return Promise.resolve(Math.random())
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(()=>{
+            resolve(Math.random())
+        }, 2000);
+    })
+
+    return promise
+}
+
+getNumber().then((n)=>{console.log(n)})
+getNumber().then((n)=> console.log(n))
+// *** ------- ***
