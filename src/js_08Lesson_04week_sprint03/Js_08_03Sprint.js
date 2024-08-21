@@ -465,6 +465,101 @@ function getNumber() {
     return promise
 }
 
-getNumber().then((n)=>{console.log(n)})
-getNumber().then((n)=> console.log(n))
+// getNumber().then((n)=>{console.log(n)})
+// getNumber().then((n)=> console.log(n))
+
+const repo = {
+    save(data) {
+        try {
+            localStorage.setItem('some-key',  JSON.stringify(data))
+        } catch (error) {
+            return false
+        }
+        return true
+    },
+    saveAsync(data) {
+        const promise = new Promise((resolve, reject) => {
+            try {
+                localStorage.setItem('some-key',  JSON.stringify(data))
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+        return promise
+    },
+    read() {
+
+        const data = localStorage.getItem('some-key')
+        if(!data) {
+            return null
+        } else {
+            return JSON.parse(data)
+        }
+    },
+    readAsync() {
+        return new Promise((resolve, reject)=>{
+            const data = localStorage.getItem('some-key')
+            if(!data) {
+                resolve(null)
+            } else {
+                resolve(JSON.parse(data))
+            }
+        })
+    }
+}
+
+// Cинхронная версия Promise
+const result = repo.save({name: 'IT-Incubator'})
+if (result) {
+    console.log('SAVED')
+} else {
+    console.warn('NOT SAVED')
+}
+
+// Асинхронная версия Promise
+repo.saveAsync({name: 'IT-Incubator'})
+    .then(()=> console.log('SAVED'))
+    .catch((error)=> console.warn('NOT SAVED: ' + error))
+
+const run = async () => {
+    await repo.saveAsync({name: 'IT-Incubator'})
+    console.log('SAVED')
+
+    const data = await repo.readAsync()
+    console.log(data)
+}
+
+run()
+
+
+
+setTimeout(()=>{
+    console.log(1)
+    setTimeout(()=>{
+        console.log(2)
+        setTimeout(()=>{
+            console.log(3)
+        }, 3000)
+    }, 2000)
+}, 1000)
+
+
+function wait(ms) {
+    // return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((res)=>{
+        setTimeout(()=>{res()}, ms)
+    });
+}
+async function run2() {
+    await wait(1000)
+    console.log(1)
+    await wait(1000)
+    console.log(2)
+    await wait(1000)
+    console.log(3)
+}
+
+run2()
 // *** ------- ***
