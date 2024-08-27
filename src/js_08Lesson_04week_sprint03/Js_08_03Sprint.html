@@ -1,19 +1,68 @@
 <script>
-    function wait(ms) {
-        // return new Promise(resolve => setTimeout(resolve, ms));
-        return new Promise((res)=>{
-            setTimeout(()=>{res()}, ms)
-        });
-    }
-    async function run2() {
-        await wait(1000)
-        console.log(1)
-        await wait(1000)
-        console.log(2)
-        await wait(1000)
-        console.log(3)
+   let findUserInDB = (id) => {
+        const users = [
+
+            {id: 1, name: 'Dmitriy', friend:4},
+            {id: 2, name: 'Elena', friend: null},
+            {id: 3, name: 'Oleg', friend: 2},
+
+        ]
+
+        return new Promise((res, rej)=> {
+            setTimeout(() => {
+                let user = users.find(u => u.id == id);
+                if (user == null) {
+                    rej('user is not found')
+                } else {
+                    res(user)
+                }
+            }, randomIntFromInterval(500, 1500))
+        })
     }
 
-    run2()
+
+    // самописная функция, которая генерирует какое-то чилсо от min до max
+    function randomIntFromInterval(max, min) { // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    // findUserInDB(1)
+    //     .then(user =>{
+    //         console.log(user.name)
+    //         return user.friend
+    //     })
+    //     .then(friendId => findUserInDB(friendId))
+    //     .catch(error => {
+    //         return { name: 'Friend Bot', friend: 3} // вернули выдуманного пользователя, чтобы цепочка дальше погла работать
+    //     })
+    //     .then(friend1 => {
+    //         console.log(friend1.name)
+    //         return friend1.friend
+    //     })
+    //     .then(friendId => findUserInDB(friendId))
+    //     .then(friend2 =>console.log(friend2.name))
+    //     .catch(error => alert(error))
+
+
+   async function run3() {
+       try{
+           let user = await findUserInDB(1)
+           console.log(user.name)
+           let friend1 // вынесли эту переменную во внешний скоп относительно этих двух блоков, где мы ее юзаем
+           try {
+               friend1 = await findUserInDB(user.friend)
+           } catch (error) {
+               friend1 = { name: 'Friend Bot', friend: 3}
+           }
+           console.log(friend1.name)
+           let friend2 = await findUserInDB(friend1.friend)
+           console.log(friend2.name)
+       } catch (error) { // какая бы ошибка во всей этой цепочке не произошла мы ее перехватим
+           alert(error)
+       }
+
+   }
+
+   run3()
 
 </script>

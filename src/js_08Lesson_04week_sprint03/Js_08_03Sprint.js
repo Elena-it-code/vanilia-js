@@ -155,6 +155,8 @@ setTimeout(()=>{
 // catch: Блок кода, который обрабатывает ошибку. Он получает объект ошибки как аргумент.
 // finally - это необязательный блок, который может быть добавлен после try/catch. Он выполняется всегда, независимо от
 // того, была ли ошибка или нет.
+import {user} from "../js_09_01/Js_09_01";
+
 const foo1 = async () => {
     try {
         const dataFromBing = await fetch('https://bing.com/query=js')
@@ -563,3 +565,70 @@ async function run2() {
 
 run2()
 // *** ------- ***
+
+
+
+
+
+
+
+// *** ------- ***
+let findUserInDB = (id) => {
+    const users = [
+        {id: 1, name: 'Dmitriy', friend: 3},
+        {id: 2, name: 'Elena', friend: null},
+        {id: 3, name: 'Oleg', friend: 2},
+    ]
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let user = users.find(u => u.id == id);
+            if (user == null) {
+                reject('user is not found')
+            } else {
+                resolve(user)
+            }
+        }, randomIntFromInterval(500, 1500))
+    })
+}
+
+function randomIntFromInterval(max, min) { // min and max included
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
+findUserInDB(2)
+    .then(user =>{
+        console.log(user.name)
+        return user.friend
+    })
+    .then(friendId => findUserInDB(friendId))
+    .then(friend1 => {
+        console.log(friend1.name)
+        return friend1.friend
+    })
+    .then(friendId => findUserInDB(friendId))
+    .then(friend2 =>console.log(friend2.name))
+
+
+
+// пример try/catch через синтаксис async / await
+async function run3() {
+    try{
+        let user = await findUserInDB(1)
+        console.log(user.name)
+        let friend1 // вынесли эту переменную во внешний скоп относительно этих двух блоков, где мы ее юзаем
+        try {
+            friend1 = await findUserInDB(user.friend)
+        } catch (error) {
+            friend1 = { name: 'Friend Bot', friend: 3}
+        }
+        console.log(friend1.name)
+        let friend2 = await findUserInDB(friend1.friend)
+        console.log(friend2.name)
+    } catch (error) { // какая бы ошибка во всей этой цепочке не произошла мы ее перехватим
+        alert(error)
+    }
+
+}
+
+run3()
