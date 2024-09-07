@@ -1,37 +1,25 @@
 ﻿<script>
 
-    setTimeout(() => {
-        console.log('1')
-    }, 0)
-
-    setTimeout(() => {
-        console.log('2')
-    }, 1000)
-
-    new Promise(function (res, rej) {
-        console.log('3')
-        res()
-        console.log('4')
-    }).then(() => {
-        console.log('5')
-    })
-
-    console.log('6')
-
-    async function test1() {
-        console.log('7')
-        await test2()
-        console.log('8')
+    async function first() { // сам async function выполняется СИНХРОННО. Мы просто говорим словом async, что в ней могут быть какие-то асинхронные действия
+        console.log(9)
+        await Promise.resolve(2).then(r => console.log(r)) // а вот если мы в ней что-то за-await(им), то это что-то будет выполняться асинхронно. Будь то несколько строк кода равно будет считаться как попало в .then
+        console.log(0)
+        await Promise.resolve(3).then(r => console.log(r))
     }
 
-    async function test2() {
-        console.log('9')
+    async function second() {
+        console.log(10)
+        await Promise.resolve(4).then(r => console.log(r))
+        console.log(11)
+        await Promise.resolve(5).then(r => console.log(r))
     }
 
-    test1()
+    first()
+    second()
 
-    console.log('10')
-    // 3 4 6 7 9 10 5 8 1 2
+    const promises = Promise.resolve('new Promise')
+    promises.then(str => console.log(str))
 
+    // 9 10 2 4 new Promise 0 11 3 5
 
 </script>

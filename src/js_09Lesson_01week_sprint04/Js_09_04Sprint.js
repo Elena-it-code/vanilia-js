@@ -349,7 +349,7 @@ console.log('6')
 async function test1() {
   console.log('7')
   await test2()
-  console.log('8')
+  console.log('8') // ЗАПОМНИ !!! Это как-бы попадает в.then ---> следовательно попадает в Micro Task
 }
 
 async function test2() {
@@ -370,9 +370,9 @@ console.log('10')
 
 // *** ------- ***
 // ### Пример 10
-async function first() {
+async function first() { // сам async function выполняется СИНХРОННО. Мы просто говорим словом async, что в ней могут быть какие-то асинхронные действия
   console.log(9)
-  await Promise.resolve(2).then(r => console.log(r))
+  await Promise.resolve(2).then(r => console.log(r)) // а вот если мы в ней что-то за-await(им), то это что-то будет выполняться асинхронно. Будь то несколько строк кода равно будет считаться как попало в .then
   console.log(0)
   await Promise.resolve(3).then(r => console.log(r))
 }
@@ -389,7 +389,19 @@ second()
 
 const promises = Promise.resolve('new Promise')
 promises.then(str => console.log(str))
+// 9 10 2 4 new Promise 0 11 3 5
+// *** ------- ***
+
+
+
+
+
+
+
+// *** ------- ***
+// ### Пример 11
 //
 // *** ------- ***
+
 
 
